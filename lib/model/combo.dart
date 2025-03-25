@@ -1,6 +1,6 @@
 import 'dart:collection';
-import 'package:flutter_crush/model/chain.dart';
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/chain.dart';
+import 'package:scafold/model/tile.dart';
 
 ///
 /// Combo
@@ -30,12 +30,12 @@ class Combo {
   Combo(Chain? horizontalChain, Chain? verticalChain, int row, int col) {
     if (horizontalChain == null && verticalChain == null) return;
 
-//if (horizontalChain != null){
-//  print('Combo()\n\t$horizontalChain');
-//}
-//if (verticalChain != null){
-//  print('Combo()\n\t$verticalChain');
-//}
+    //if (horizontalChain != null){
+    //  print('Combo()\n\t$horizontalChain');
+    //}
+    //if (verticalChain != null){
+    //  print('Combo()\n\t$verticalChain');
+    //}
 
     horizontalChain?.tiles.forEach((Tile tile) {
       oneTile = tile;
@@ -120,13 +120,4 @@ class Combo {
 //
 // All combo types
 //
-enum ComboType {
-  none,
-  one,
-  two,
-  three,
-  four,
-  five,
-  six,
-  seven,
-}
+enum ComboType { none, one, two, three, four, five, six, seven }

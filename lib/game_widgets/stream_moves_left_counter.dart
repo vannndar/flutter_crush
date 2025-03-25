@@ -1,5 +1,5 @@
-import 'package:flutter_crush/bloc/bloc_provider.dart';
-import 'package:flutter_crush/bloc/game_bloc.dart';
+import 'package:scafold/bloc/bloc_provider.dart';
+import 'package:scafold/bloc/game_bloc.dart';
 import 'package:flutter/material.dart';
 
 ///
@@ -17,23 +17,18 @@ class StreamMovesLeftCounter extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Icon(
-          Icons.swap_horiz,
-          color: Colors.black,
-        ),
+        const Icon(Icons.swap_horiz, color: Colors.black),
         SizedBox(width: 8.0),
         StreamBuilder<int>(
-            initialData: gameBloc.gameController.level.maxMoves,
-            stream: gameBloc.movesLeftCount,
-            builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-              return Text(
-                '${snapshot.data}',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16.0,
-                ),
-              );
-            }),
+          initialData: gameBloc.gameController.level.maxMoves,
+          stream: gameBloc.movesLeftCount,
+          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+            return Text(
+              '${snapshot.data}',
+              style: TextStyle(color: Colors.black, fontSize: 16.0),
+            );
+          },
+        ),
       ],
     );
   }

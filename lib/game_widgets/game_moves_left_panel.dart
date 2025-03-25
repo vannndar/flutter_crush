@@ -1,7 +1,7 @@
-import 'package:flutter_crush/bloc/bloc_provider.dart';
-import 'package:flutter_crush/bloc/game_bloc.dart';
-import 'package:flutter_crush/game_widgets/stream_moves_left_counter.dart';
-import 'package:flutter_crush/model/level.dart';
+import 'package:scafold/bloc/bloc_provider.dart';
+import 'package:scafold/bloc/game_bloc.dart';
+import 'package:scafold/game_widgets/stream_moves_left_counter.dart';
+import 'package:scafold/model/level.dart';
 import 'package:flutter/material.dart';
 
 class GameMovesLeftPanel extends StatelessWidget {
@@ -11,7 +11,8 @@ class GameMovesLeftPanel extends StatelessWidget {
     final Level level = gameBloc.gameController.level;
     final Orientation orientation = MediaQuery.of(context).orientation;
     final EdgeInsets paddingTop = EdgeInsets.only(
-        top: (orientation == Orientation.portrait ? 10.0 : 0.0));
+      top: (orientation == Orientation.portrait ? 10.0 : 0.0),
+    );
 
     return Padding(
       padding: paddingTop,
@@ -30,11 +31,10 @@ class GameMovesLeftPanel extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Level: ${level.index}',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.black,
-                  )),
+              child: Text(
+                'Level: ${level.index}',
+                style: TextStyle(fontSize: 14.0, color: Colors.black),
+              ),
             ),
             StreamMovesLeftCounter(),
           ],

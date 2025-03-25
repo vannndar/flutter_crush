@@ -1,5 +1,5 @@
-import 'package:flutter_crush/helpers/array_2d.dart';
-import 'package:flutter_crush/model/objective.dart';
+import 'package:scafold/helpers/array_2d.dart';
+import 'package:scafold/model/objective.dart';
 import 'package:quiver/iterables.dart';
 
 ///
@@ -30,10 +30,10 @@ class Level extends Object {
   double boardTop = 0.0;
 
   Level.fromJson(Map<String, dynamic> json)
-      : _index = json["level"],
-        _rows = json["rows"],
-        _cols = json["cols"],
-        _maxMoves = json["moves"] {
+    : _index = json["level"],
+      _rows = json["rows"],
+      _cols = json["cols"],
+      _maxMoves = json["moves"] {
     // Initialize the grid to the dimensions
     grid = Array2d(_rows, _cols);
 
@@ -52,9 +52,10 @@ class Level extends Object {
     });
 
     // Retrieve the objectives
-    _objectives = (json["objective"] as List).map((item) {
-      return Objective(item);
-    }).toList();
+    _objectives =
+        (json["objective"] as List).map((item) {
+          return Objective(item);
+        }).toList();
 
     // First-time initialization
     resetObjectives();

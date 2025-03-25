@@ -1,5 +1,5 @@
 import 'package:colorize/colorize.dart';
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/tile.dart';
 
 class Array2d<T> {
   late List<List<T?>> array;

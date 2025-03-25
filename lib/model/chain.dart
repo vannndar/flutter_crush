@@ -1,6 +1,6 @@
 import 'dart:collection';
-import 'package:flutter_crush/helpers/array_2d.dart';
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/helpers/array_2d.dart';
+import 'package:scafold/model/tile.dart';
 
 ///
 /// Chain
@@ -17,10 +17,7 @@ class Chain {
   List<Tile> get tiles => _tiles.values.toList();
 
   // Constructor
-  Chain({
-    this.length = 0,
-    required this.type,
-  });
+  Chain({this.length = 0, required this.type});
 
   // Add a tile to the list of unique ones belonging to the chain
   void addTile(Tile? tile) {
@@ -119,7 +116,4 @@ class ChainHelper {
 //
 // Types of chains
 //
-enum ChainType {
-  horizontal,
-  vertical,
-}
+enum ChainType { horizontal, vertical }

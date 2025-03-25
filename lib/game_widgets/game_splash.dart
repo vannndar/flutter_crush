@@ -1,16 +1,13 @@
-import 'package:flutter_crush/game_widgets/double_curved_container.dart';
-import 'package:flutter_crush/game_widgets/objective_item.dart';
-import 'package:flutter_crush/helpers/audio.dart';
-import 'package:flutter_crush/model/level.dart';
-import 'package:flutter_crush/model/objective.dart';
+import 'package:scafold/game_widgets/double_curved_container.dart';
+import 'package:scafold/game_widgets/objective_item.dart';
+import 'package:scafold/helpers/audio.dart';
+import 'package:scafold/model/level.dart';
+import 'package:scafold/model/objective.dart';
 import 'package:flutter/material.dart';
 
 class GameSplash extends StatefulWidget {
-  GameSplash({
-    Key? key,
-    required this.level,
-    this.onComplete,
-  }) : super(key: key);
+  GameSplash({Key? key, required this.level, this.onComplete})
+    : super(key: key);
 
   final Level level;
   final VoidCallback? onComplete;
@@ -28,32 +25,23 @@ class _GameSplashState extends State<GameSplash>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: Duration(seconds: 4),
-      vsync: this,
-    )
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          if (widget.onComplete != null) {
-            widget.onComplete?.call();
-          }
-        }
-      });
+    _controller =
+        AnimationController(duration: Duration(seconds: 4), vsync: this)
+          ..addListener(() {
+            setState(() {});
+          })
+          ..addStatusListener((AnimationStatus status) {
+            if (status == AnimationStatus.completed) {
+              if (widget.onComplete != null) {
+                widget.onComplete?.call();
+              }
+            }
+          });
 
-    _animationAppear = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
+    _animationAppear = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(
-          0.0,
-          0.1,
-          curve: Curves.easeIn,
-        ),
+        curve: Interval(0.0, 0.1, curve: Curves.easeIn),
       ),
     );
 
@@ -79,11 +67,11 @@ class _GameSplashState extends State<GameSplash>
     //
     List<Widget> objectiveWidgets =
         widget.level.objectives.map((Objective obj) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        child: ObjectiveItem(objective: obj, level: widget.level),
-      );
-    }).toList();
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: ObjectiveItem(objective: obj, level: widget.level),
+          );
+        }).toList();
 
     return AnimatedBuilder(
       animation: _animationAppear,
@@ -100,10 +88,11 @@ class _GameSplashState extends State<GameSplash>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                    child: Text(
-                  'Level:  ${widget.level.index}',
-                  style: TextStyle(fontSize: 24.0, color: Colors.white),
-                )),
+                  child: Text(
+                    'Level:  ${widget.level.index}',
+                    style: TextStyle(fontSize: 24.0, color: Colors.white),
+                  ),
+                ),
                 SizedBox(height: 8.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

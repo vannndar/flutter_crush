@@ -1,40 +1,38 @@
 import 'dart:async';
 
-import 'package:flutter_crush/animations/animation_chain.dart';
-import 'package:flutter_crush/animations/animation_combo_collapse.dart';
-import 'package:flutter_crush/animations/animation_combo_three.dart';
-import 'package:flutter_crush/animations/animation_swap_tiles.dart';
-import 'package:flutter_crush/bloc/bloc_provider.dart';
-import 'package:flutter_crush/bloc/game_bloc.dart';
-import 'package:flutter_crush/game_widgets/board.dart';
-import 'package:flutter_crush/game_widgets/game_moves_left_panel.dart';
-import 'package:flutter_crush/game_widgets/game_over_splash.dart';
-import 'package:flutter_crush/game_widgets/game_reshuffling_splash.dart';
-import 'package:flutter_crush/game_widgets/game_splash.dart';
-import 'package:flutter_crush/game_widgets/objective_panel.dart';
-import 'package:flutter_crush/game_widgets/shadowed_text.dart';
-import 'package:flutter_crush/helpers/animations_resolver.dart';
-import 'package:flutter_crush/helpers/array_2d.dart';
-import 'package:flutter_crush/helpers/audio.dart';
-import 'package:flutter_crush/model/animation_sequence.dart';
-import 'package:flutter_crush/model/combo.dart';
-import 'package:flutter_crush/model/level.dart';
-import 'package:flutter_crush/model/row_col.dart';
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/animations/animation_chain.dart';
+import 'package:scafold/animations/animation_combo_collapse.dart';
+import 'package:scafold/animations/animation_combo_three.dart';
+import 'package:scafold/animations/animation_swap_tiles.dart';
+import 'package:scafold/bloc/bloc_provider.dart';
+import 'package:scafold/bloc/game_bloc.dart';
+import 'package:scafold/game_widgets/board.dart';
+import 'package:scafold/game_widgets/game_moves_left_panel.dart';
+import 'package:scafold/game_widgets/game_over_splash.dart';
+import 'package:scafold/game_widgets/game_reshuffling_splash.dart';
+import 'package:scafold/game_widgets/game_splash.dart';
+import 'package:scafold/game_widgets/objective_panel.dart';
+import 'package:scafold/game_widgets/shadowed_text.dart';
+import 'package:scafold/helpers/animations_resolver.dart';
+import 'package:scafold/helpers/array_2d.dart';
+import 'package:scafold/helpers/audio.dart';
+import 'package:scafold/model/animation_sequence.dart';
+import 'package:scafold/model/combo.dart';
+import 'package:scafold/model/level.dart';
+import 'package:scafold/model/row_col.dart';
+import 'package:scafold/model/tile.dart';
 import 'package:flutter/material.dart';
 
 class GamePage extends StatefulWidget {
   static Route<dynamic> route(Level level) {
     return MaterialPageRoute(
-        builder: (BuildContext context) => GamePage(level: level));
+      builder: (BuildContext context) => GamePage(level: level),
+    );
   }
 
   final Level level;
 
-  GamePage({
-    Key? key,
-    required this.level,
-  }) : super(key: key);
+  GamePage({Key? key, required this.level}) : super(key: key);
 
   @override
   _GamePageState createState() => _GamePageState();
@@ -150,28 +148,24 @@ class _GamePageState extends State<GamePage>
   // Builds the score panel
   //
   Widget _buildMovesLeftPanel(Orientation orientation) {
-    Alignment alignment = orientation == Orientation.portrait
-        ? Alignment.topLeft
-        : Alignment.topLeft;
+    Alignment alignment =
+        orientation == Orientation.portrait
+            ? Alignment.topLeft
+            : Alignment.topLeft;
 
-    return Align(
-      alignment: alignment,
-      child: GameMovesLeftPanel(),
-    );
+    return Align(alignment: alignment, child: GameMovesLeftPanel());
   }
 
   //
   // Builds the objective panel
   //
   Widget _buildObjectivePanel(Orientation orientation) {
-    Alignment alignment = orientation == Orientation.portrait
-        ? Alignment.topRight
-        : Alignment.bottomLeft;
+    Alignment alignment =
+        orientation == Orientation.portrait
+            ? Alignment.topRight
+            : Alignment.bottomLeft;
 
-    return Align(
-      alignment: alignment,
-      child: ObjectivePanel(),
-    );
+    return Align(alignment: alignment, child: ObjectivePanel());
   }
 
   //
@@ -210,18 +204,14 @@ class _GamePageState extends State<GamePage>
                 // Make sure the widget is correctly positioned
                 //
                 tile.setPosition();
-                tiles.add(Positioned(
-                  left: tile.x,
-                  top: tile.y,
-                  child: tile.widget,
-                ));
+                tiles.add(
+                  Positioned(left: tile.x, top: tile.y, child: tile.widget),
+                );
               }
             }
           }
 
-          return Stack(
-            children: tiles,
-          );
+          return Stack(children: tiles);
         }
         // If nothing is ready, simply return an empty container
         return Container();
@@ -238,7 +228,8 @@ class _GamePageState extends State<GamePage>
     final double left = globalPosition.dx - widget.level.boardLeft;
     return RowCol(
       col: (left / widget.level.tileWidth).floor(),
-      row: widget.level.numberOfRows -
+      row:
+          widget.level.numberOfRows -
           (top / widget.level.tileHeight).floor() -
           1,
     );
@@ -257,7 +248,8 @@ class _GamePageState extends State<GamePage>
     if (rowCol.row < 0 ||
         rowCol.row >= widget.level.numberOfRows ||
         rowCol.col < 0 ||
-        rowCol.col >= widget.level.numberOfCols) return;
+        rowCol.col >= widget.level.numberOfCols)
+      return;
 
     // Check if the [row,col] corresponds to a possible swap
     Tile? selectedTile = gameBloc.gameController.grid[rowCol.row][rowCol.col];
@@ -282,17 +274,15 @@ class _GamePageState extends State<GamePage>
       // Let's position the tile on the Overlay and inflate it a bit to make it more visible
       //
       _overlayEntryFromTile = OverlayEntry(
-          opaque: false,
-          builder: (BuildContext context) {
-            return Positioned(
-              left: gestureFromTile!.x,
-              top: gestureFromTile!.y,
-              child: Transform.scale(
-                scale: 1.1,
-                child: gestureFromTile!.widget,
-              ),
-            );
-          });
+        opaque: false,
+        builder: (BuildContext context) {
+          return Positioned(
+            left: gestureFromTile!.x,
+            top: gestureFromTile!.y,
+            child: Transform.scale(scale: 1.1, child: gestureFromTile!.widget),
+          );
+        },
+      );
       Overlay.of(context).insert(_overlayEntryFromTile!);
     }
   }
@@ -345,8 +335,9 @@ class _GamePageState extends State<GamePage>
 
       if (test == true) {
         RowCol rowCol = RowCol(
-            row: gestureFromRowCol!.row + deltaRow,
-            col: gestureFromRowCol!.col + deltaCol);
+          row: gestureFromRowCol!.row + deltaRow,
+          col: gestureFromRowCol!.col + deltaCol,
+        );
         if (rowCol.col < 0 ||
             rowCol.col == widget.level.numberOfCols ||
             rowCol.row < 0 ||
@@ -363,8 +354,10 @@ class _GamePageState extends State<GamePage>
 
           if (canBePlayed) {
             // We need to test the swap
-            bool swapAllowed = gameBloc.gameController
-                .swapContains(gestureFromTile!, destTile!);
+            bool swapAllowed = gameBloc.gameController.swapContains(
+              gestureFromTile!,
+              destTile!,
+            );
 
             // Do not allow the gesture recognition during the animation
             _allowGesture = false;
@@ -389,88 +382,100 @@ class _GamePageState extends State<GamePage>
 
             // 4. Animate both tiles
             _overlayEntryAnimateSwapTiles = OverlayEntry(
-                opaque: false,
-                builder: (BuildContext context) {
-                  return AnimationSwapTiles(
-                    upTile: upTile,
-                    downTile: downTile,
-                    swapAllowed: swapAllowed,
-                    onComplete: () async {
-                      // 5. Put back the tiles in the game grid
-                      gameBloc.gameController.grid[rowCol.row][rowCol.col]
-                          .visible = true;
-                      gameBloc
-                          .gameController
-                          .grid[gestureFromRowCol!.row][gestureFromRowCol!.col]
-                          .visible = true;
+              opaque: false,
+              builder: (BuildContext context) {
+                return AnimationSwapTiles(
+                  upTile: upTile,
+                  downTile: downTile,
+                  swapAllowed: swapAllowed,
+                  onComplete: () async {
+                    // 5. Put back the tiles in the game grid
+                    gameBloc
+                        .gameController
+                        .grid[rowCol.row][rowCol.col]
+                        .visible = true;
+                    gameBloc
+                        .gameController
+                        .grid[gestureFromRowCol!.row][gestureFromRowCol!.col]
+                        .visible = true;
 
-                      // 6. Remove the overlay Entry
-                      _overlayEntryAnimateSwapTiles?.remove();
-                      _overlayEntryAnimateSwapTiles = null;
+                    // 6. Remove the overlay Entry
+                    _overlayEntryAnimateSwapTiles?.remove();
+                    _overlayEntryAnimateSwapTiles = null;
 
-                      if (swapAllowed == true) {
-                        // Remember if the tile we move is a bomb
-                        bool isSourceTileABomb =
-                            Tile.isBomb(gestureFromTile!.type!);
+                    if (swapAllowed == true) {
+                      // Remember if the tile we move is a bomb
+                      bool isSourceTileABomb = Tile.isBomb(
+                        gestureFromTile!.type!,
+                      );
 
-                        // Swap the 2 tiles
-                        gameBloc.gameController
-                            .swapTiles(gestureFromTile!, destTile);
+                      // Swap the 2 tiles
+                      gameBloc.gameController.swapTiles(
+                        gestureFromTile!,
+                        destTile,
+                      );
 
-                        // Get the tiles that need to be removed, following the swap
-                        // We need to get the tiles from all possible combos
-                        Combo comboOne = gameBloc.gameController.getCombo(
-                            gestureFromTile!.row, gestureFromTile!.col);
-                        Combo comboTwo = gameBloc.gameController
-                            .getCombo(destTile.row, destTile.col);
+                      // Get the tiles that need to be removed, following the swap
+                      // We need to get the tiles from all possible combos
+                      Combo comboOne = gameBloc.gameController.getCombo(
+                        gestureFromTile!.row,
+                        gestureFromTile!.col,
+                      );
+                      Combo comboTwo = gameBloc.gameController.getCombo(
+                        destTile.row,
+                        destTile.col,
+                      );
 
-                        // Wait for both animations to complete
-                        await Future.wait(
-                            [_animateCombo(comboOne), _animateCombo(comboTwo)]);
+                      // Wait for both animations to complete
+                      await Future.wait([
+                        _animateCombo(comboOne),
+                        _animateCombo(comboTwo),
+                      ]);
 
-                        // Resolve the combos
-                        gameBloc.gameController
-                            .resolveCombo(comboOne, gameBloc);
-                        gameBloc.gameController
-                            .resolveCombo(comboTwo, gameBloc);
+                      // Resolve the combos
+                      gameBloc.gameController.resolveCombo(comboOne, gameBloc);
+                      gameBloc.gameController.resolveCombo(comboTwo, gameBloc);
 
-                        // If the tile we moved is a bomb, we need to process the explosion
-                        if (isSourceTileABomb) {
-                          gameBloc.gameController.proceedWithExplosion(
-                              Tile(
-                                  row: destTile.row,
-                                  col: destTile.row,
-                                  type: gestureFromTile!.type),
-                              gameBloc);
-                        }
-
-                        // Proceed with the falling tiles
-                        await _playAllAnimations();
-
-                        // Once this is all done, we need to recalculate all the possible swaps
-                        gameBloc.gameController.identifySwaps();
-
-                        // Record the fact that we have played a move
-                        gameBloc.playMove();
-
-                        if (!gameBloc.gameController.stillMovesToPlay()) {
-                          // No moves left
-                          await _showReshufflingSplash();
-                          gameBloc.gameController.reshuffling();
-                          setState(() {});
-                        }
-
-                        // Make sure there is a correct delay before refreshing the screen
-                        await Future.delayed(const Duration(milliseconds: 500));
+                      // If the tile we moved is a bomb, we need to process the explosion
+                      if (isSourceTileABomb) {
+                        gameBloc.gameController.proceedWithExplosion(
+                          Tile(
+                            row: destTile.row,
+                            col: destTile.row,
+                            type: gestureFromTile!.type,
+                          ),
+                          gameBloc,
+                        );
                       }
 
-                      // 7. Reset
-                      _allowGesture = true;
-                      _onPanEnd(null);
-                      setState(() {});
-                    },
-                  );
-                });
+                      // Proceed with the falling tiles
+                      await _playAllAnimations();
+
+                      // Once this is all done, we need to recalculate all the possible swaps
+                      gameBloc.gameController.identifySwaps();
+
+                      // Record the fact that we have played a move
+                      gameBloc.playMove();
+
+                      if (!gameBloc.gameController.stillMovesToPlay()) {
+                        // No moves left
+                        await _showReshufflingSplash();
+                        gameBloc.gameController.reshuffling();
+                        setState(() {});
+                      }
+
+                      // Make sure there is a correct delay before refreshing the screen
+                      await Future.delayed(const Duration(milliseconds: 500));
+                    }
+
+                    // 7. Reset
+                    _allowGesture = true;
+                    _onPanEnd(null);
+                    setState(() {});
+                  },
+                );
+              },
+            );
             Overlay.of(context).insert(_overlayEntryAnimateSwapTiles!);
           }
         }
@@ -619,8 +624,10 @@ class _GamePageState extends State<GamePage>
     // Determine all animations (and sequence of animations) that
     // need to be played as a consequence of a combo
     //
-    AnimationsResolver animationResolver =
-        AnimationsResolver(gameBloc: gameBloc, level: widget.level);
+    AnimationsResolver animationResolver = AnimationsResolver(
+      gameBloc: gameBloc,
+      level: widget.level,
+    );
     animationResolver.resolve();
 
     // Determine the list of cells that are involved in the animation(s)
@@ -676,8 +683,9 @@ class _GamePageState extends State<GamePage>
                     });
 
                     gameBloc.gameController.refreshGridAfterAnimations(
-                        animationResolver.resultingGridInTermsOfTileTypes,
-                        animationResolver.involvedCells);
+                      animationResolver.resultingGridInTermsOfTileTypes,
+                      animationResolver.involvedCells,
+                    );
 
                     // We now need to proceed with a final rebuild and yield the hand
                     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -722,20 +730,21 @@ class _GamePageState extends State<GamePage>
 
     // Show the splash
     _gameSplash = OverlayEntry(
-        opaque: false,
-        builder: (BuildContext context) {
-          return GameOverSplash(
-            success: success,
-            level: widget.level,
-            onComplete: () {
-              _gameSplash!.remove();
-              _gameSplash = null;
+      opaque: false,
+      builder: (BuildContext context) {
+        return GameOverSplash(
+          success: success,
+          level: widget.level,
+          onComplete: () {
+            _gameSplash!.remove();
+            _gameSplash = null;
 
-              // as the game is over, let's leave the game
-              Navigator.of(context).pop();
-            },
-          );
-        });
+            // as the game is over, let's leave the game
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
 
     Overlay.of(context).insert(_gameSplash!);
   }
@@ -750,19 +759,20 @@ class _GamePageState extends State<GamePage>
 
     // Show the splash
     _gameSplash = OverlayEntry(
-        opaque: false,
-        builder: (BuildContext context) {
-          return GameSplash(
-            level: widget.level,
-            onComplete: () {
-              _gameSplash?.remove();
-              _gameSplash = null;
+      opaque: false,
+      builder: (BuildContext context) {
+        return GameSplash(
+          level: widget.level,
+          onComplete: () {
+            _gameSplash?.remove();
+            _gameSplash = null;
 
-              // allow gesture detection
-              _allowGesture = true;
-            },
-          );
-        });
+            // allow gesture detection
+            _allowGesture = true;
+          },
+        );
+      },
+    );
 
     Overlay.of(context).insert(_gameSplash!);
   }
@@ -779,21 +789,22 @@ class _GamePageState extends State<GamePage>
 
     // Show the splash
     _gameSplash = OverlayEntry(
-        opaque: false,
-        builder: (BuildContext context) {
-          return GameReshufflingSplash(
-            onComplete: () {
-              _gameSplash?.remove();
-              _gameSplash = null;
+      opaque: false,
+      builder: (BuildContext context) {
+        return GameReshufflingSplash(
+          onComplete: () {
+            _gameSplash?.remove();
+            _gameSplash = null;
 
-              // allow gesture detection
-              _allowGesture = true;
+            // allow gesture detection
+            _allowGesture = true;
 
-              // gives the hand back
-              completer.complete();
-            },
-          );
-        });
+            // gives the hand back
+            completer.complete();
+          },
+        );
+      },
+    );
 
     Overlay.of(context).insert(_gameSplash!);
 

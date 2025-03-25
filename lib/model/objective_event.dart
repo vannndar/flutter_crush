@@ -1,4 +1,4 @@
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/tile.dart';
 
 ///
 /// ObjectiveEvent
@@ -11,8 +11,5 @@ class ObjectiveEvent {
   // Remaining before reaching the objective for this type of Objective
   final int remaining;
 
-  ObjectiveEvent({
-    required this.type,
-    required this.remaining,
-  });
+  ObjectiveEvent({required this.type, required this.remaining});
 }

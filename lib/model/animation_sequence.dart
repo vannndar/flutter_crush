@@ -1,5 +1,5 @@
-import 'package:flutter_crush/model/tile.dart';
-import 'package:flutter_crush/model/tile_animation.dart';
+import 'package:scafold/model/tile.dart';
+import 'package:scafold/model/tile_animation.dart';
 
 ///
 /// AnimationSequence

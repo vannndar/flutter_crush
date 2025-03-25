@@ -1,14 +1,14 @@
 //import 'dart:io';
 
 //import 'package:firebase_admob/firebase_admob.dart';
-import 'package:flutter_crush/animations/shine_effect.dart';
-import 'package:flutter_crush/bloc/bloc_provider.dart';
-import 'package:flutter_crush/bloc/game_bloc.dart';
-import 'package:flutter_crush/game_widgets/double_curved_container.dart';
-import 'package:flutter_crush/game_widgets/game_level_button.dart';
-import 'package:flutter_crush/game_widgets/shadowed_text.dart';
-import 'package:flutter_crush/model/level.dart';
-import 'package:flutter_crush/pages/game_page.dart';
+import 'package:scafold/animations/shine_effect.dart';
+import 'package:scafold/bloc/bloc_provider.dart';
+import 'package:scafold/bloc/game_bloc.dart';
+import 'package:scafold/game_widgets/double_curved_container.dart';
+import 'package:scafold/game_widgets/game_level_button.dart';
+import 'package:scafold/game_widgets/shadowed_text.dart';
+import 'package:scafold/model/level.dart';
+import 'package:scafold/pages/game_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage>
   late AnimationController _controller;
   late Animation _animation;
 
-/*   final String appId = Platform.isAndroid 
+  /*   final String appId = Platform.isAndroid 
   ? "ca-app-pub-9541831517245687~1206632744"
   : "ca-app-pub-9541831517245687~1206632744";   // TO BE ADAPTED WITH APPLE
 
@@ -38,17 +38,13 @@ class _HomePageState extends State<HomePage>
       vsync: this,
       duration: const Duration(milliseconds: 3500),
     )..addListener(() {
-        setState(() {});
-      });
+      setState(() {});
+    });
 
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(
-          0.6,
-          1.0,
-          curve: Curves.easeInOut,
-        ),
+        curve: Interval(0.6, 1.0, curve: Curves.easeInOut),
       ),
     );
 
@@ -56,24 +52,24 @@ class _HomePageState extends State<HomePage>
       _controller.forward();
 
       // show the ads
-//      myInterstitial
-//        ..load()
-//        ..show(
-//          anchorOffset: 0.0,
-//          anchorType: AnchorType.bottom,
-//        );
+      //      myInterstitial
+      //        ..load()
+      //        ..show(
+      //          anchorOffset: 0.0,
+      //          anchorType: AnchorType.bottom,
+      //        );
     });
 
     // Initialize the Ads
-//    myInterstitial = InterstitialAd(
-//      adUnitId: BannerAd.testAdUnitId,
-//    );
+    //    myInterstitial = InterstitialAd(
+    //      adUnitId: BannerAd.testAdUnitId,
+    //    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
-//    myInterstitial?.dispose();
+    //    myInterstitial?.dispose();
     super.dispose();
   }
 
@@ -82,7 +78,8 @@ class _HomePageState extends State<HomePage>
     GameBloc gameBloc = BlocProvider.of<GameBloc>(context)!.bloc;
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     Size screenSize = mediaQueryData.size;
-    double levelsWidth = -100.0 +
+    double levelsWidth =
+        -100.0 +
         ((mediaQueryData.orientation == Orientation.portrait)
             ? screenSize.width
             : screenSize.height);
@@ -156,9 +153,7 @@ class _HomePageState extends State<HomePage>
                   innerColor: Colors.blue,
                   child: Stack(
                     children: <Widget>[
-                      ShineEffect(
-                        offset: Offset(100.0, 100.0),
-                      ),
+                      ShineEffect(offset: Offset(100.0, 100.0)),
                       Align(
                         alignment: Alignment.center,
                         child: ShadowedText(

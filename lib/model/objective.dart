@@ -1,4 +1,4 @@
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/tile.dart';
 
 ///
 /// Objective
@@ -16,8 +16,9 @@ class Objective extends Object {
     List<String> parts = string.split(";");
 
     // Retrieve the type by its name (as a string)
-    type = TileType.values
-        .firstWhere((e) => e.toString().split('.')[1] == parts[1]);
+    type = TileType.values.firstWhere(
+      (e) => e.toString().split('.')[1] == parts[1],
+    );
     initialValue = int.parse(parts[0]);
 
     reset();

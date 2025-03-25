@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter_crush/bloc/bloc_provider.dart';
-import 'package:flutter_crush/controllers/game_controller.dart';
-import 'package:flutter_crush/model/level.dart';
-import 'package:flutter_crush/model/objective.dart';
-import 'package:flutter_crush/model/objective_event.dart';
+import 'package:scafold/bloc/bloc_provider.dart';
+import 'package:scafold/controllers/game_controller.dart';
+import 'package:scafold/model/level.dart';
+import 'package:scafold/model/objective.dart';
+import 'package:scafold/model/objective_event.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/tile.dart';
 import 'package:quiver/iterables.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -116,8 +116,9 @@ class GameBloc implements BlocBase {
   //
   void pushTileEvent(TileType tileType, int counter) {
     // We first need to decrement the objective by the counter
-    Objective? objective = gameController.level.objectives
-        .firstWhereOrNull((o) => o.type == tileType);
+    Objective? objective = gameController.level.objectives.firstWhereOrNull(
+      (o) => o.type == tileType,
+    );
     if (objective == null) {
       return;
     }
@@ -126,7 +127,8 @@ class GameBloc implements BlocBase {
 
     // Send a notification
     sendObjectiveEvent(
-        ObjectiveEvent(type: tileType, remaining: objective.count));
+      ObjectiveEvent(type: tileType, remaining: objective.count),
+    );
 
     // Check if the game is won
     bool isWon = true;

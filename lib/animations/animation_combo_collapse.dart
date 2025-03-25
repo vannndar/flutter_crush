@@ -1,5 +1,5 @@
-import 'package:flutter_crush/model/combo.dart';
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/combo.dart';
+import 'package:scafold/model/tile.dart';
 import 'package:flutter/material.dart';
 
 class AnimationComboCollapse extends StatefulWidget {
@@ -34,7 +34,7 @@ class _AnimationComboCollapseState extends State<AnimationComboCollapse>
           ..addStatusListener((AnimationStatus status) {
             if (status == AnimationStatus.completed) {
               widget.onComplete();
-                        }
+            }
           });
 
     _controller.forward();
@@ -52,16 +52,18 @@ class _AnimationComboCollapseState extends State<AnimationComboCollapse>
     final double destinationY = widget.resultingTile.y!;
 
     // Tiles are collapsing at the position of the resulting tile
-    List<Widget> children = widget.combo.tiles.map((Tile tile) {
-      return Positioned(
-        left: tile.x! + (1.0 - _controller.value) * (tile.x! - destinationX),
-        top: tile.y! + (1.0 - _controller.value) * (destinationY - tile.y!),
-        child: Transform.scale(
-          scale: 1.0 - _controller.value,
-          child: tile.widget,
-        ),
-      );
-    }).toList();
+    List<Widget> children =
+        widget.combo.tiles.map((Tile tile) {
+          return Positioned(
+            left:
+                tile.x! + (1.0 - _controller.value) * (tile.x! - destinationX),
+            top: tile.y! + (1.0 - _controller.value) * (destinationY - tile.y!),
+            child: Transform.scale(
+              scale: 1.0 - _controller.value,
+              child: tile.widget,
+            ),
+          );
+        }).toList();
 
     // Display the resulting tile
     children.add(
@@ -74,8 +76,6 @@ class _AnimationComboCollapseState extends State<AnimationComboCollapse>
         ),
       ),
     );
-    return Stack(
-      children: children,
-    );
+    return Stack(children: children);
   }
 }

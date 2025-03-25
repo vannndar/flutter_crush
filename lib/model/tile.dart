@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_crush/model/level.dart';
+import 'package:scafold/model/level.dart';
 
 ///
 /// Tile
@@ -64,10 +64,7 @@ class Tile extends Object {
         children: <Widget>[
           Opacity(
             opacity: 0.7,
-            child: Transform.scale(
-              scale: 0.8,
-              child: _buildDecoration(),
-            ),
+            child: Transform.scale(scale: 0.8, child: _buildDecoration()),
           ),
           _buildDecoration('deco/ice_02.png'),
         ],
@@ -119,7 +116,8 @@ class Tile extends Object {
         case TileType.purple_h:
         case TileType.yellow_v:
         case TileType.yellow_h:
-          imageAsset = "bombs/${type!.name}.png";
+          final name = type!.name.split("_").firstOrNull;
+          imageAsset = "bombs/$name.png";
           break;
 
         default:
@@ -133,10 +131,11 @@ class Tile extends Object {
     }
     return Container(
       decoration: BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage('assets/images/$imageAsset'),
-        fit: BoxFit.contain,
-      )),
+        image: DecorationImage(
+          image: AssetImage('assets/images/$imageAsset'),
+          fit: BoxFit.contain,
+        ),
+      ),
     );
   }
 
@@ -180,11 +179,8 @@ class Tile extends Object {
   //
   Widget get widget => getWidgetSized(level!.tileWidth, level!.tileHeight);
 
-  Widget getWidgetSized(double width, double height) => Container(
-        width: width,
-        height: height,
-        child: _widget,
-      );
+  Widget getWidgetSized(double width, double height) =>
+      Container(width: width, height: height, child: _widget);
 
   //
   // Can the Tile move?

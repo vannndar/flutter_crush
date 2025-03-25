@@ -1,6 +1,6 @@
-import 'package:flutter_crush/game_widgets/double_curved_container.dart';
-import 'package:flutter_crush/helpers/audio.dart';
-import 'package:flutter_crush/model/level.dart';
+import 'package:scafold/game_widgets/double_curved_container.dart';
+import 'package:scafold/helpers/audio.dart';
+import 'package:scafold/model/level.dart';
 import 'package:flutter/material.dart';
 
 class GameOverSplash extends StatefulWidget {
@@ -28,30 +28,21 @@ class _GameOverSplashState extends State<GameOverSplash>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: Duration(seconds: 3),
-      vsync: this,
-    )
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          widget.onComplete();
-                }
-      });
+    _controller =
+        AnimationController(duration: Duration(seconds: 3), vsync: this)
+          ..addListener(() {
+            setState(() {});
+          })
+          ..addStatusListener((AnimationStatus status) {
+            if (status == AnimationStatus.completed) {
+              widget.onComplete();
+            }
+          });
 
-    _animationAppear = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
+    _animationAppear = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(
-          0.0,
-          0.1,
-          curve: Curves.easeIn,
-        ),
+        curve: Interval(0.0, 0.1, curve: Curves.easeIn),
       ),
     );
 
@@ -88,11 +79,10 @@ class _GameOverSplashState extends State<GameOverSplash>
           child: Container(
             color: lightColor,
             child: Center(
-              child: Text(message,
-                  style: TextStyle(
-                    fontSize: 50.0,
-                    color: Colors.white,
-                  )),
+              child: Text(
+                message,
+                style: TextStyle(fontSize: 50.0, color: Colors.white),
+              ),
             ),
           ),
         ),

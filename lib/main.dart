@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_crush/application.dart';
-import 'package:flutter_crush/helpers/audio.dart';
+import 'package:scafold/application.dart';
+import 'package:scafold/helpers/audio.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

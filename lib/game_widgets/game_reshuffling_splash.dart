@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_crush/game_widgets/double_curved_container.dart';
-import 'package:flutter_crush/helpers/audio.dart';
+import 'package:scafold/game_widgets/double_curved_container.dart';
+import 'package:scafold/helpers/audio.dart';
 
 class GameReshufflingSplash extends StatefulWidget {
-  GameReshufflingSplash({
-    Key? key,
-    this.onComplete,
-  }) : super(key: key);
+  GameReshufflingSplash({Key? key, this.onComplete}) : super(key: key);
 
   final VoidCallback? onComplete;
 
@@ -23,32 +20,23 @@ class _GameReshufflingSplashState extends State<GameReshufflingSplash>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: Duration(seconds: 2),
-      vsync: this,
-    )
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          if (widget.onComplete != null) {
-            widget.onComplete?.call();
-          }
-        }
-      });
+    _controller =
+        AnimationController(duration: Duration(seconds: 2), vsync: this)
+          ..addListener(() {
+            setState(() {});
+          })
+          ..addStatusListener((AnimationStatus status) {
+            if (status == AnimationStatus.completed) {
+              if (widget.onComplete != null) {
+                widget.onComplete?.call();
+              }
+            }
+          });
 
-    _animationAppear = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
+    _animationAppear = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(
-          0.0,
-          0.1,
-          curve: Curves.easeIn,
-        ),
+        curve: Interval(0.0, 0.1, curve: Curves.easeIn),
       ),
     );
 
@@ -85,11 +73,10 @@ class _GameReshufflingSplashState extends State<GameReshufflingSplash>
           child: Container(
             color: lightColor,
             child: Center(
-              child: Text(message,
-                  style: TextStyle(
-                    fontSize: 50.0,
-                    color: Colors.white,
-                  )),
+              child: Text(
+                message,
+                style: TextStyle(fontSize: 50.0, color: Colors.white),
+              ),
             ),
           ),
         ),

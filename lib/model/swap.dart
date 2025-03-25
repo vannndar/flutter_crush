@@ -1,4 +1,4 @@
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/tile.dart';
 
 ///
 /// Swap
@@ -9,10 +9,7 @@ class Swap extends Object {
   Tile from;
   Tile to;
 
-  Swap({
-    required this.from,
-    required this.to,
-  });
+  Swap({required this.from, required this.to});
 
   @override
   int get hashCode => from.hashCode * 1000 + to.hashCode;

@@ -1,5 +1,5 @@
-import 'package:flutter_crush/model/row_col.dart';
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/row_col.dart';
+import 'package:scafold/model/tile.dart';
 
 ///
 /// TileAnimation
@@ -26,10 +26,4 @@ class TileAnimation {
 //
 // Types of animations
 //
-enum TileAnimationType {
-  moveDown,
-  avalanche,
-  newTile,
-  chain,
-  collapse,
-}
+enum TileAnimationType { moveDown, avalanche, newTile, chain, collapse }

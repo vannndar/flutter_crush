@@ -1,4 +1,4 @@
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/tile.dart';
 import 'package:flutter/material.dart';
 
 class AnimationSwapTiles extends StatefulWidget {
@@ -27,26 +27,24 @@ class _AnimationSwapTilesState extends State<AnimationSwapTiles>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      duration: Duration(milliseconds: 300),
-      vsync: this,
-    )
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          if (!widget.swapAllowed) {
-            _controller.reverse();
-          } else {
-            widget.onComplete();
-                    }
-        }
+    _controller =
+        AnimationController(duration: Duration(milliseconds: 300), vsync: this)
+          ..addListener(() {
+            setState(() {});
+          })
+          ..addStatusListener((AnimationStatus status) {
+            if (status == AnimationStatus.completed) {
+              if (!widget.swapAllowed) {
+                _controller.reverse();
+              } else {
+                widget.onComplete();
+              }
+            }
 
-        if (status == AnimationStatus.dismissed) {
-          widget.onComplete();
-                }
-      });
+            if (status == AnimationStatus.dismissed) {
+              widget.onComplete();
+            }
+          });
 
     _controller.forward();
   }

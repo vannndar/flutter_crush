@@ -2,17 +2,17 @@
 
 import 'dart:math' as math;
 
-import 'package:flutter_crush/bloc/game_bloc.dart';
-import 'package:flutter_crush/controllers/game_controller.dart';
-import 'package:flutter_crush/helpers/array_2d.dart';
-import 'package:flutter_crush/model/animation_sequence.dart';
-import 'package:flutter_crush/model/avalanche_test.dart';
-import 'package:flutter_crush/model/chain.dart';
-import 'package:flutter_crush/model/combo.dart';
-import 'package:flutter_crush/model/level.dart';
-import 'package:flutter_crush/model/row_col.dart';
-import 'package:flutter_crush/model/tile.dart';
-import 'package:flutter_crush/model/tile_animation.dart';
+import 'package:scafold/bloc/game_bloc.dart';
+import 'package:scafold/controllers/game_controller.dart';
+import 'package:scafold/helpers/array_2d.dart';
+import 'package:scafold/model/animation_sequence.dart';
+import 'package:scafold/model/avalanche_test.dart';
+import 'package:scafold/model/chain.dart';
+import 'package:scafold/model/combo.dart';
+import 'package:scafold/model/level.dart';
+import 'package:scafold/model/row_col.dart';
+import 'package:scafold/model/tile.dart';
+import 'package:scafold/model/tile_animation.dart';
 import 'package:quiver/iterables.dart';
 
 class AnimationsResolver {
@@ -22,10 +22,7 @@ class AnimationsResolver {
   late int rows;
   late int cols;
 
-  AnimationsResolver({
-    required this.gameBloc,
-    required this.level,
-  }) {
+  AnimationsResolver({required this.gameBloc, required this.level}) {
     rows = level.numberOfRows;
     cols = level.numberOfCols;
     gameController = gameBloc.gameController;
@@ -88,7 +85,7 @@ class AnimationsResolver {
   }
 
   void resolve() {
-//Stopwatch stopwatch = new Stopwatch()..start();
+    //Stopwatch stopwatch = new Stopwatch()..start();
     //
     // Fill both arrays based on the current definition
     //
@@ -151,14 +148,14 @@ class AnimationsResolver {
 
     do {
       do {
-//  print('Before Combos');
-//  dumpArray2d(_tiles, true);
+        //  print('Before Combos');
+        //  dumpArray2d(_tiles, true);
         //
         // Check for combos
         //
         delay = _resolveCombos(delay);
-//  print('After Combos');
-//  dumpArray2d(_tiles, true);
+        //  print('After Combos');
+        //  dumpArray2d(_tiles, true);
         //
         // Once the combos have been resolved,
         // look for the moves
@@ -208,7 +205,7 @@ class AnimationsResolver {
         loopBasedOnAvalanche = true;
       }
     } while (loopBasedOnAvalanche);
-// print('executed in ${stopwatch.elapsed}');
+    // print('executed in ${stopwatch.elapsed}');
   }
 
   //
@@ -260,8 +257,8 @@ class AnimationsResolver {
             newTile.row = row;
             newTile.col = col;
             newTile.build();
-//print('Before post-avalanche: $from');
-//dumpArray2d(_tiles, true);
+            //print('Before post-avalanche: $from');
+            //dumpArray2d(_tiles, true);
 
             _tiles[row][col] = newTile;
             _state[row][col] = CellState.occupied;
@@ -274,8 +271,8 @@ class AnimationsResolver {
             // increase the next delay
             newDelay += 10;
 
-//print('After post-avalanche');
-//dumpArray2d(_tiles, true);
+            //print('After post-avalanche');
+            //dumpArray2d(_tiles, true);
 
             // Leave all the loops
             leaveLoops = true;
@@ -296,15 +293,25 @@ class AnimationsResolver {
     ChainHelper chainHelper = ChainHelper();
 
     _lastMoves.forEach((RowCol rowCol) {
-//print('Combo: testing: $rowCol');
-      Chain? verticalChain =
-          chainHelper.checkVerticalChain(rowCol.row, rowCol.col, _tiles);
-      Chain? horizontalChain =
-          chainHelper.checkHorizontalChain(rowCol.row, rowCol.col, _tiles);
+      //print('Combo: testing: $rowCol');
+      Chain? verticalChain = chainHelper.checkVerticalChain(
+        rowCol.row,
+        rowCol.col,
+        _tiles,
+      );
+      Chain? horizontalChain = chainHelper.checkHorizontalChain(
+        rowCol.row,
+        rowCol.col,
+        _tiles,
+      );
 
       // Check if there is a combo
-      Combo combo =
-          Combo(horizontalChain, verticalChain, rowCol.row, rowCol.col);
+      Combo combo = Combo(
+        horizontalChain,
+        verticalChain,
+        rowCol.row,
+        rowCol.col,
+      );
       if (combo.type != ComboType.none) {
         // We found a combo.  We therefore need to take appropriate actions
         TileAnimationType animationType;
@@ -379,8 +386,8 @@ class AnimationsResolver {
           }
         });
 
-// print('After Combo resolution: ${combo.type}');
-// dumpArray2d(_tiles, true);
+        // print('After Combo resolution: ${combo.type}');
+        // dumpArray2d(_tiles, true);
       }
     });
 
@@ -424,14 +431,16 @@ class AnimationsResolver {
       final int row = avalancheTest.row;
 
       // Count the number of "holes" on the left-hand side column
-      final leftColHoles = leftCol
-          ? _countNumberOfHolesAtColumStartingAtRow(col - 1, row - 1)
-          : 0;
+      final leftColHoles =
+          leftCol
+              ? _countNumberOfHolesAtColumStartingAtRow(col - 1, row - 1)
+              : 0;
 
       // Count the number of "holes" on the right-hand side column
-      final rightColHoles = rightCol
-          ? _countNumberOfHolesAtColumStartingAtRow(col + 1, row - 1)
-          : 0;
+      final rightColHoles =
+          rightCol
+              ? _countNumberOfHolesAtColumStartingAtRow(col + 1, row - 1)
+              : 0;
       int colOffset = 0;
 
       // Check if there is a hole.  If yes, the deeper wins
@@ -605,12 +614,7 @@ class AnimationsResolver {
         // It is time to check for the avalanche effects, which will only occur at the end of the first move
         // (where the tile arrives at destination)
         if (delay == (startDelay + 1)) {
-          _avalanches[col].add(
-            AvalancheTest(
-              delay: delay,
-              row: dest,
-            ),
-          );
+          _avalanches[col].add(AvalancheTest(delay: delay, row: dest));
         }
 
         // Increment the number of moves
@@ -649,10 +653,11 @@ class AnimationsResolver {
           TileType? newTileType;
 
           // Make sure not to inject a direct combo
-          while (
-              newTileType == null || newTileType == previousInsertedTileType) {
-            newTileType =
-                Tile.random(math.Random()); // Generate a new random tile type
+          while (newTileType == null ||
+              newTileType == previousInsertedTileType) {
+            newTileType = Tile.random(
+              math.Random(),
+            ); // Generate a new random tile type
           }
           previousInsertedTileType = newTileType;
 
@@ -698,12 +703,7 @@ class AnimationsResolver {
 
           // ... a new tile could also cause an avalanche
           if (delay == (startDelay + 1)) {
-            _avalanches[col].add(
-              AvalancheTest(
-                delay: delay,
-                row: dest,
-              ),
-            );
+            _avalanches[col].add(AvalancheTest(delay: delay, row: dest));
           }
 
           // Increment the destination
@@ -802,20 +802,18 @@ class AnimationsResolver {
       });
 
       // Record the sequence
-      sequences.add(AnimationSequence(
-        tileType: tileType!,
-        startDelay: startDelay,
-        endDelay: endDelay,
-        animations: animations,
-      ));
+      sequences.add(
+        AnimationSequence(
+          tileType: tileType!,
+          startDelay: startDelay,
+          endDelay: endDelay,
+          animations: animations,
+        ),
+      );
     });
 
     return sequences;
   }
 }
 
-enum CellState {
-  forbidden,
-  empty,
-  occupied,
-}
+enum CellState { forbidden, empty, occupied }

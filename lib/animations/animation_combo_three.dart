@@ -1,13 +1,10 @@
-import 'package:flutter_crush/model/combo.dart';
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/model/combo.dart';
+import 'package:scafold/model/tile.dart';
 import 'package:flutter/material.dart';
 
 class AnimationComboThree extends StatefulWidget {
-  AnimationComboThree({
-    Key? key,
-    required this.combo,
-    required this.onComplete,
-  }) : super(key: key);
+  AnimationComboThree({Key? key, required this.combo, required this.onComplete})
+    : super(key: key);
 
   final Combo combo;
   final VoidCallback onComplete;
@@ -32,7 +29,7 @@ class _AnimationComboThreeState extends State<AnimationComboThree>
           ..addStatusListener((AnimationStatus status) {
             if (status == AnimationStatus.completed) {
               widget.onComplete();
-                        }
+            }
           });
 
     _controller.forward();
@@ -47,16 +44,17 @@ class _AnimationComboThreeState extends State<AnimationComboThree>
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: widget.combo.tiles.map((Tile tile) {
-        return Positioned(
-          left: tile.x,
-          top: tile.y,
-          child: Transform.scale(
-            scale: 1.0 - _controller.value,
-            child: tile.widget,
-          ),
-        );
-      }).toList(),
+      children:
+          widget.combo.tiles.map((Tile tile) {
+            return Positioned(
+              left: tile.x,
+              top: tile.y,
+              child: Transform.scale(
+                scale: 1.0 - _controller.value,
+                child: tile.widget,
+              ),
+            );
+          }).toList(),
     );
   }
 }

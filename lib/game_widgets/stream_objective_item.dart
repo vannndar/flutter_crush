@@ -1,18 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter_crush/bloc/bloc_provider.dart';
-import 'package:flutter_crush/bloc/game_bloc.dart';
-import 'package:flutter_crush/bloc/objective_bloc.dart';
-import 'package:flutter_crush/model/objective.dart';
-import 'package:flutter_crush/model/objective_event.dart';
-import 'package:flutter_crush/model/tile.dart';
+import 'package:scafold/bloc/bloc_provider.dart';
+import 'package:scafold/bloc/game_bloc.dart';
+import 'package:scafold/bloc/objective_bloc.dart';
+import 'package:scafold/model/objective.dart';
+import 'package:scafold/model/objective_event.dart';
+import 'package:scafold/model/tile.dart';
 import 'package:flutter/material.dart';
 
 class StreamObjectiveItem extends StatefulWidget {
-  StreamObjectiveItem({
-    Key? key,
-    required this.objective,
-  }) : super(key: key);
+  StreamObjectiveItem({Key? key, required this.objective}) : super(key: key);
 
   final Objective objective;
 
@@ -66,8 +63,9 @@ class StreamObjectiveItemState extends State<StreamObjectiveItem> {
 
     // Simple pipe from the stream that lists all the ObjectiveEvents into
     // the BLoC that processes THIS particular Objective type
-    _subscription = gameBloc.outObjectiveEvents
-        .listen((ObjectiveEvent e) => _bloc.sendObjectives(e));
+    _subscription = gameBloc.outObjectiveEvents.listen(
+      (ObjectiveEvent e) => _bloc.sendObjectives(e),
+    );
   }
 
   void _disposeBloc() {
@@ -81,8 +79,10 @@ class StreamObjectiveItemState extends State<StreamObjectiveItem> {
     //
     // Trick to get the image of the tile
     //
-    Tile tile =
-        Tile(type: widget.objective.type, level: gameBloc.gameController.level);
+    Tile tile = Tile(
+      type: widget.objective.type,
+      level: gameBloc.gameController.level,
+    );
     tile.build();
 
     return Container(
@@ -90,20 +90,17 @@ class StreamObjectiveItemState extends State<StreamObjectiveItem> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Container(
-            width: 32.0,
-            height: 32.0,
-            child: tile.widget,
-          ),
+          Container(width: 32.0, height: 32.0, child: tile.widget),
           StreamBuilder<int>(
-              initialData: widget.objective.count,
-              stream: _bloc.objectiveCounter,
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                return Text(
-                  '${snapshot.data}',
-                  style: TextStyle(color: Colors.black),
-                );
-              }),
+            initialData: widget.objective.count,
+            stream: _bloc.objectiveCounter,
+            builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+              return Text(
+                '${snapshot.data}',
+                style: TextStyle(color: Colors.black),
+              );
+            },
+          ),
         ],
       ),
     );

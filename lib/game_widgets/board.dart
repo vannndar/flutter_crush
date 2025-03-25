@@ -1,17 +1,13 @@
 import 'dart:math' as math;
-import 'package:flutter_crush/bloc/bloc_provider.dart';
-import 'package:flutter_crush/bloc/game_bloc.dart';
-import 'package:flutter_crush/helpers/array_2d.dart';
-import 'package:flutter_crush/model/level.dart';
+import 'package:scafold/bloc/bloc_provider.dart';
+import 'package:scafold/bloc/game_bloc.dart';
+import 'package:scafold/helpers/array_2d.dart';
+import 'package:scafold/model/level.dart';
 import 'package:flutter/material.dart';
 
 class Board extends StatefulWidget {
-  Board({
-    Key? key,
-    required this.cols,
-    required this.rows,
-    required this.level,
-  }) : super(key: key);
+  Board({Key? key, required this.cols, required this.rows, required this.level})
+    : super(key: key);
 
   final int rows;
   final int cols;
@@ -76,8 +72,9 @@ class _BoardState extends State<Board> {
         if (value != 0 && value != 6 && value != 9) {
           boxDecoration = BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/images/borders/border_$value.png'),
-                fit: BoxFit.cover),
+              image: AssetImage('assets/images/borders/border_$value.png'),
+              fit: BoxFit.cover,
+            ),
           );
         }
         _decorations![row][col] = boxDecoration;
@@ -96,9 +93,10 @@ class _BoardState extends State<Board> {
       for (int col = 0; col < widget.cols; col++) {
         final double opacity = ((counter + col) % 2 == 1) ? 0.3 : 0.1;
 
-        Color color = (widget.level.grid[row][col] == 'X')
-            ? Colors.transparent
-            : Colors.white.withOpacity(opacity);
+        Color color =
+            (widget.level.grid[row][col] == 'X')
+                ? Colors.transparent
+                : Colors.white.withOpacity(opacity);
 
         _checker![row][col] = color;
       }
@@ -111,8 +109,9 @@ class _BoardState extends State<Board> {
     final Size screenSize = MediaQuery.of(context).size;
     final double maxDimension = math.min(screenSize.width, screenSize.height);
     final double maxTileWidth = math.min(
-        maxDimension / GameBloc.kMaxTilesPerRowAndColumn,
-        GameBloc.kMaxTilesSize);
+      maxDimension / GameBloc.kMaxTilesPerRowAndColumn,
+      GameBloc.kMaxTilesSize,
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _afterBuild());
 
@@ -136,8 +135,10 @@ class _BoardState extends State<Board> {
       child: Stack(
         children: <Widget>[
           _showDecorations(maxTileWidth),
-          _showGrid(maxTileWidth,
-              gameBloc), // We pass the gameBloc since we will need to use it to pass the dimensions and coordinates
+          _showGrid(
+            maxTileWidth,
+            gameBloc,
+          ), // We pass the gameBloc since we will need to use it to pass the dimensions and coordinates
         ],
       ),
     );
@@ -183,13 +184,14 @@ class _BoardState extends State<Board> {
           return Container(
             color: _checker![widget.rows - row - 1][col],
             child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-              if (isFirst) {
-                isFirst = false;
-                return Container(key: _keyCheckerCell);
-              }
-              return Container();
-            }),
+              builder: (BuildContext context, BoxConstraints constraints) {
+                if (isFirst) {
+                  isFirst = false;
+                  return Container(key: _keyCheckerCell);
+                }
+                return Container();
+              },
+            ),
           );
         },
       ),
@@ -200,10 +202,15 @@ class _BoardState extends State<Board> {
     final RenderBox box = context.findRenderObject() as RenderBox;
 
     final Offset topLeft = box.size.topLeft(box.localToGlobal(Offset.zero));
-    final Offset bottomRight =
-        box.size.bottomRight(box.localToGlobal(Offset.zero));
+    final Offset bottomRight = box.size.bottomRight(
+      box.localToGlobal(Offset.zero),
+    );
     return Rect.fromLTRB(
-        topLeft.dx, topLeft.dy, bottomRight.dx, bottomRight.dy);
+      topLeft.dx,
+      topLeft.dy,
+      bottomRight.dx,
+      bottomRight.dy,
+    );
   }
 
   void _afterBuild() {
@@ -211,8 +218,9 @@ class _BoardState extends State<Board> {
     // Let's get the dimensions and position of the exact position of the board
     //
     if (_keyChecker.currentContext != null) {
-      final Rect rectBoard =
-          _getDimensionsFromContext(_keyChecker.currentContext!);
+      final Rect rectBoard = _getDimensionsFromContext(
+        _keyChecker.currentContext!,
+      );
 
       //
       // Save the position of the board
@@ -223,8 +231,9 @@ class _BoardState extends State<Board> {
       //
       // Let's get the dimensions of one cell of the board
       //
-      final Rect rectBoardSquare =
-          _getDimensionsFromContext(_keyCheckerCell.currentContext!);
+      final Rect rectBoardSquare = _getDimensionsFromContext(
+        _keyCheckerCell.currentContext!,
+      );
 
       //
       // Save it for later reuse
